@@ -1,6 +1,6 @@
 /*
  *
- * Custom-Expansion
+ * CustomExpansion-Expansion
  * Copyright (C) 2019 Ryan McCarthy
  *
  * This program is free software: you can redistribute it and/or modify
@@ -18,32 +18,29 @@
  *
  *
  */
-package com.extendedclip.papi.expansion.custom;
+package com.extendedclip.papi.expansion.custom.placeholder;
 
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
-import org.bukkit.OfflinePlayer;
+public class Placeholder {
 
-public final class Custom extends PlaceholderExpansion {
+  private String key;
+  private Class<?> type;
+  private Object value;
 
-  private final String VERSION = getClass().getPackage().getImplementationVersion();
-
-  @Override
-  public String getIdentifier() {
-    return "custom";
+  public Placeholder(String key, Class<?> clazz, Object value) {
+    this.key = key;
+    this.type = clazz;
+    this.value = value;
   }
 
-  @Override
-  public String getAuthor() {
-    return "clip";
+  public Class<?> getClassType() {
+    return type;
   }
 
-  @Override
-  public String getVersion() {
-    return VERSION;
+  public <T> T getValue() {
+    return (T) type.cast(value);
   }
 
-  @Override
-  public String onRequest(OfflinePlayer p, String id) {
-    return null;
+  public String getKey() {
+    return key;
   }
 }
