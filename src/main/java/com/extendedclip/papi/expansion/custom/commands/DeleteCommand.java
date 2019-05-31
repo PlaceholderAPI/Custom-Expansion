@@ -48,7 +48,7 @@ public class DeleteCommand implements Cmd {
       String id = args[1];
 
       if (!ex.getPlaceholderHandler().getServerPlaceholders().containsKey(id)) {
-        // placeholder already exists
+        // placeholder doesn't exist
         Utils.msg(s, "placeholder identifier: " + id + " does not exist!");
         return true;
       }
