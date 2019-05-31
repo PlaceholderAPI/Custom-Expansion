@@ -84,7 +84,7 @@ public class PlayerPlaceholdersConfig implements Storage {
 
 			PlaceholderPlayer pl = new PlaceholderPlayer(UUID.fromString(uuid), c.getString(uuid + ".name"));
 			for (String id : c.getConfigurationSection(uuid + ".placeholders").getKeys(false)) {
-				String path = uuid + "." + id;
+				String path = uuid + ".placeholders." + id;
 				Class<?> type = Utils.getSupportedClassFromString(c.getString(path+".type"));
 				Object value = c.get(path+".value");
 				if (type == null) {
