@@ -27,8 +27,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-
 public class CustomExpansionCommands extends Command {
 
   private CustomExpansion expansion;
@@ -41,7 +39,7 @@ public class CustomExpansionCommands extends Command {
   public CustomExpansionCommands(CustomExpansion instance) {
     super("cpe",
         "manage custom placeholders",
-        "/cpe <player/server> <add/subtract/set/remove> <identifier> <value> (player)",
+        "/cpe <player/server> <create/delete/list/set/add/subtract> <identifier> <value> (player)",
         Lists.newArrayList("customplaceholderexpansion", "customplaceholders"));
 
     // subcommands
