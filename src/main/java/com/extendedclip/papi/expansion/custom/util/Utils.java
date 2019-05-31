@@ -20,9 +20,17 @@
  */
 package com.extendedclip.papi.expansion.custom.util;
 
+import org.bukkit.ChatColor;
+import org.bukkit.command.CommandSender;
+
+import java.util.Arrays;
 import java.util.List;
 
 public class Utils {
+
+  public static void msg(CommandSender s, String... message) {
+    Arrays.stream(message).forEach(m -> s.sendMessage(ChatColor.translateAlternateColorCodes('&', m)));
+  }
 
   public static Class<?> getSupportedClassFromString(String type) {
     switch (type.toLowerCase()) {
