@@ -24,7 +24,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Utils {
 
@@ -32,13 +31,49 @@ public class Utils {
     Arrays.stream(message).forEach(m -> s.sendMessage(ChatColor.translateAlternateColorCodes('&', m)));
   }
 
-  public static Class<?> getSupportedClassFromString(String type) {
+  public static Object getObject(Class<?> type, String str) {
+    switch (type.getSimpleName().toLowerCase()) {
+      case "string":
+        return str;
+      case "integer":
+        try {
+          return Integer.parseInt(str);
+        } catch(Exception e) {
+          return null;
+        }
+      case "long":
+        try {
+          return Long.parseLong(str);
+        } catch(Exception e) {
+          return null;
+        }
+      case "double":
+        try {
+          return Double.parseDouble(str);
+        } catch(Exception e) {
+          return null;
+        }
+      case "float":
+        try {
+          return Float.parseFloat(str);
+        } catch(Exception e) {
+          return null;
+        }
+      case "boolean":
+        if (str.equalsIgnoreCase("true")) {
+          return true;
+        } else if (str.equalsIgnoreCase("false")) {
+          return false;
+        }
+    }
+    return null;
+  }
+
+  public static Class<?> getSupportedClassType(String type) {
     switch (type.toLowerCase()) {
       case "string":
         return String.class;
-      case "list":
-        return List.class;
-      case "int":
+      case "integer":
         return Integer.class;
       case "long":
         return Long.class;

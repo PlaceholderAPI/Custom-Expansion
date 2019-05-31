@@ -48,6 +48,7 @@ public class PlayerPlaceholdersConfig implements Storage {
 
 	public void init() {
 		config.load();
+		config.save();
 	}
 
 	public boolean save(String key, Placeholder p) {
@@ -85,7 +86,7 @@ public class PlayerPlaceholdersConfig implements Storage {
 			PlaceholderPlayer pl = new PlaceholderPlayer(UUID.fromString(uuid), c.getString(uuid + ".name"));
 			for (String id : c.getConfigurationSection(uuid + ".placeholders").getKeys(false)) {
 				String path = uuid + ".placeholders." + id;
-				Class<?> type = Utils.getSupportedClassFromString(c.getString(path+".type"));
+				Class<?> type = Utils.getSupportedClassType(c.getString(path+".type"));
 				Object value = c.get(path+".value");
 				if (type == null) {
 					ex.log("Custom player placeholder: " + id + " has an invalid type specified for player:" + uuid);

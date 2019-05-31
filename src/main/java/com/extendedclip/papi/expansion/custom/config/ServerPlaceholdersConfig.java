@@ -82,7 +82,7 @@ public class ServerPlaceholdersConfig implements Storage {
 		map.clear();
 
 		for (String id : c.getKeys(false)) {
-			Class<?> type = Utils.getSupportedClassFromString(c.getString(id+".type"));
+			Class<?> type = Utils.getSupportedClassType(c.getString(id+".type"));
 			Object value = c.get(id+".value");
 			if (type == null) {
 				ex.log("Custom placeholder: " + id + " has an invalid type specified.");

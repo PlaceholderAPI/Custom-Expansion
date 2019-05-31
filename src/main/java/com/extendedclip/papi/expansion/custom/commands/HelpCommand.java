@@ -18,29 +18,27 @@
  *
  *
  */
-package com.extendedclip.papi.expansion.custom.placeholder;
+package com.extendedclip.papi.expansion.custom.commands;
 
-public class Placeholder {
 
-  private String key;
-  private Class<?> type;
-  private Object value;
+import com.extendedclip.papi.expansion.custom.CustomExpansion;
+import com.extendedclip.papi.expansion.custom.util.Utils;
+import org.bukkit.command.CommandSender;
 
-  public Placeholder(String key, Class<?> clazz, Object value) {
-    this.key = key;
-    this.type = clazz;
-    this.value = value;
-  }
+public class HelpCommand implements Cmd {
 
-  public Class<?> getClassType() {
-    return type;
-  }
+  @Override
+  public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
 
-  public <T> T getValue() {
-    return (T) value;
-  }
+    // temp hardcoded for now to test
+    Utils.msg(s, "&aCustomExpansion Help",
+        "/cpe create server <identifier> <type> <value>",
+        "/cpe remove server <identifier>",
+        "/cpe set server <identifier> <value>",
+        "/cpe add server <identifier> <value>",
+        "/cpe subtract server <identifier> <value>");
 
-  public String getKey() {
-    return key;
+
+    return false;
   }
 }

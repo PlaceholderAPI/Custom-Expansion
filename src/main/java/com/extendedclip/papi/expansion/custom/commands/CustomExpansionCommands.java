@@ -22,24 +22,62 @@ package com.extendedclip.papi.expansion.custom.commands;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import com.google.common.collect.Lists;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+import java.util.List;
 
 public class CustomExpansionCommands extends Command {
 
   private CustomExpansion expansion;
+
+  private HelpCommand help;
+  private CreateCommand create;
+  private DeleteCommand delete;
+  private ListCommand list;
 
   public CustomExpansionCommands(CustomExpansion instance) {
     super("cpe",
         "manage custom placeholders",
         "/cpe <player/server> <add/subtract/set/remove> <identifier> <value> (player)",
         Lists.newArrayList("customplaceholderexpansion", "customplaceholders"));
+
+    // subcommands
+    help = new HelpCommand();
+    create = new CreateCommand();
+    delete = new DeleteCommand();
+    list = new ListCommand();
+
     expansion = instance;
   }
 
   @Override
   public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-    // to do
+    if ((sender instanceof Player) && !sender.hasPermission("customexpansion.admin")) {
+      // no perms
+      return true;
+    }
+
+    if (args.length == 0) {
+      // info
+      return true;
+    }
+
+    String[] subs = (String[]) ArrayUtils.remove(args, 0);
+
+    switch(args[0]) {
+      case "help":
+        return help.execute(expansion, sender, subs);
+      case "create":
+        return create.execute(expansion, sender, subs);
+      case "delete":
+        return delete.execute(expansion, sender, subs);
+      case "list":
+        return list.execute(expansion, sender, subs);
+    }
+
     return true;
   }
 }

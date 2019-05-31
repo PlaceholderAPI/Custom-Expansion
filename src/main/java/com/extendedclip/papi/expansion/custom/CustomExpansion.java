@@ -31,7 +31,9 @@ import me.clip.placeholderapi.expansion.Configurable;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandMap;
+import org.bukkit.command.SimpleCommandMap;
 
 import java.lang.reflect.Field;
 import java.util.Map;
@@ -41,9 +43,11 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
 
   private final String VERSION = getClass().getPackage().getImplementationVersion();
   private CommandMap map = null;
+  private Map<String, Command> known;
   private PlaceholderHandler handler;
   private Storage serverPlaceholderStorage;
   private Storage playerPlaceholderStorage;
+  private CustomExpansionCommands cmd;
 
   @Override
   public String getIdentifier() {
@@ -66,10 +70,14 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
     handler = new PlaceholderHandler();
     // register command
     try {
+      cmd = new CustomExpansionCommands(this);
       final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
       f.setAccessible(true);
       map = (CommandMap) f.get(Bukkit.getServer());
-      map.register("customplaceholders", new CustomExpansionCommands(this));
+      Field k = SimpleCommandMap.class.getDeclaredField("knownCommands");
+      k.setAccessible(true);
+      known = ((Map<String, Command>) k.get((SimpleCommandMap) map));
+      map.register("customplaceholders", cmd);
     } catch (Exception e) {
       e.printStackTrace();
       return false;
@@ -92,7 +100,10 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
 
   @Override
   public void clear() {
-    map.getCommand("cpe").unregister(map);
+    known.remove("cpe");
+    cmd.unregister(map);
+    known = null;
+    map = null;
     handler.clear();
   }
 
