@@ -23,7 +23,10 @@ package com.extendedclip.papi.expansion.custom;
 import com.extendedclip.papi.expansion.custom.commands.CustomExpansionCommands;
 import com.extendedclip.papi.expansion.custom.config.PlayerPlaceholdersConfig;
 import com.extendedclip.papi.expansion.custom.config.ServerPlaceholdersConfig;
-import com.extendedclip.papi.expansion.custom.storage.Storage;
+import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
+import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
+import com.extendedclip.papi.expansion.custom.storage.PlayerStorage;
+import com.extendedclip.papi.expansion.custom.storage.ServerStorage;
 import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderHandler;
 import com.google.common.collect.Maps;
 import me.clip.placeholderapi.expansion.Cacheable;
@@ -45,8 +48,8 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
   private CommandMap map = null;
   private Map<String, Command> known;
   private PlaceholderHandler handler;
-  private Storage serverPlaceholderStorage;
-  private Storage playerPlaceholderStorage;
+  private ServerStorage serverPlaceholderStorage;
+  private PlayerStorage playerPlaceholderStorage;
   private CustomExpansionCommands cmd;
 
   @Override
@@ -67,7 +70,7 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
   @Override
   public boolean register() {
     //init handler
-    handler = new PlaceholderHandler();
+    handler = new PlaceholderHandler(this);
     // register command
     try {
       cmd = new CustomExpansionCommands(this);
@@ -122,7 +125,15 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
     }
     if (id.startsWith("player_")) {
       id = id.replace("player_", "");
-      return Optional.ofNullable(handler.getPlayer(p).getPlaceholder(id).getValue().toString()).orElse(null);
+      PlaceholderPlayer pl = handler.getPlayer(p);
+      if (pl == null) {
+        return null;
+      }
+      Placeholder ph = pl.getPlaceholder(id);
+      if (ph == null) {
+        return null;
+      }
+      return Optional.ofNullable(ph.getValue().toString()).orElse(null);
     }
     return null;
   }
@@ -135,11 +146,11 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
     return handler;
   }
 
-  public Storage getServerPlaceholderStorage() {
+  public ServerStorage getServerPlaceholderStorage() {
     return serverPlaceholderStorage;
   }
 
-  public Storage getPlayerPlaceholderStorage() {
+  public PlayerStorage getPlayerPlaceholderStorage() {
     return playerPlaceholderStorage;
   }
 }

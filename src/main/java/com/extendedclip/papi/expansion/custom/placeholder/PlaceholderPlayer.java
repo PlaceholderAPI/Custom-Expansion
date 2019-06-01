@@ -59,13 +59,11 @@ public class PlaceholderPlayer {
   public OfflinePlayer getPlayer() {
     return Bukkit.getOfflinePlayer(playerUUID);
   }
-
   public Map<String, Placeholder> getPlaceholders() {
     return PLACEHOLDERS;
   }
-
   public Placeholder getPlaceholder(String id) {
-    return Optional.of(PLACEHOLDERS.get(id)).orElse(null);
+    return Optional.ofNullable(PLACEHOLDERS.get(id)).orElse(null);
   }
 
   public void setPlaceholders(Map<String, Placeholder> placeholders) {

@@ -21,7 +21,8 @@
 package com.extendedclip.papi.expansion.custom.config;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
-import com.extendedclip.papi.expansion.custom.storage.Storage;
+import com.extendedclip.papi.expansion.custom.storage.PlayerStorage;
+import com.extendedclip.papi.expansion.custom.storage.ServerStorage;
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
 import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
 import com.extendedclip.papi.expansion.custom.util.Utils;
@@ -32,7 +33,7 @@ import java.io.File;
 import java.util.Set;
 import java.util.UUID;
 
-public class PlayerPlaceholdersConfig implements Storage {
+public class PlayerPlaceholdersConfig implements PlayerStorage {
 
 	private CustomExpansion ex;
 	private PlaceholderAPIPlugin plugin;
@@ -51,7 +52,7 @@ public class PlayerPlaceholdersConfig implements Storage {
 		config.save();
 	}
 
-	public boolean save(String key, Placeholder p) {
+	public boolean remove(PlaceholderPlayer player, String identifier) {
 		if (config == null) {
 			return false;
 		}
@@ -59,11 +60,32 @@ public class PlayerPlaceholdersConfig implements Storage {
 		if (c == null) {
 			return false;
 		}
+		String key = player.getUUID().toString();
+		c.set(key + ".placeholders." + identifier, null);
+		Set<String> keys = c.getConfigurationSection(key + ".placeholders").getKeys(false);
+		if (keys == null || keys.isEmpty()) {
+			c.set(key, null);
+		}
+		return config.save();
+	}
+
+	public boolean add(PlaceholderPlayer player, Placeholder p) {
+		if (config == null) {
+			return false;
+		}
+		FileConfiguration c = config.getConfig();
+		if (c == null) {
+			return false;
+		}
+
+		String key = player.getUUID().toString();
+		c.set(key + ".name", player.getName());
+
 		if (p == null) {
-			c.set(key, p);
+			c.set(key + ".placeholders." + p.getKey(), p);
 		} else {
-			c.set(key+".type", p.getClassType().getSimpleName());
-			c.set(key+".value", p.getValue());
+			c.set(key + ".placeholders." + p.getKey() + ".type", p.getClassType().getSimpleName());
+			c.set(key + ".placeholders." + p.getKey() + ".value", p.getValue());
 		}
 
 		return config.save();
@@ -87,9 +109,14 @@ public class PlayerPlaceholdersConfig implements Storage {
 			for (String id : c.getConfigurationSection(uuid + ".placeholders").getKeys(false)) {
 				String path = uuid + ".placeholders." + id;
 				Class<?> type = Utils.getSupportedClassType(c.getString(path+".type"));
-				Object value = c.get(path+".value");
 				if (type == null) {
 					ex.log("Custom player placeholder: " + id + " has an invalid type specified for player:" + uuid);
+					continue;
+				}
+				Object value = c.get(path+".value");
+
+				if (value == null) {
+					ex.log("Custom player placeholder: " + id + " has an invalid value specified for player:" + uuid);
 					continue;
 				}
 

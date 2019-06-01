@@ -23,7 +23,10 @@ package com.extendedclip.papi.expansion.custom.commands;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
+import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
 import com.extendedclip.papi.expansion.custom.util.Utils;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 public class ListCommand implements Cmd {
@@ -37,6 +40,31 @@ public class ListCommand implements Cmd {
   public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
     if (args.length < 1) {
       Utils.msg(s, getUsage());
+      return true;
+    }
+
+    if (args[0].equalsIgnoreCase("player"))  {
+      if (args.length < 2) {
+        Utils.msg(s, getUsage());
+        return true;
+      }
+
+      OfflinePlayer op = Bukkit.getPlayer(args[1]);
+
+      if (op == null) {
+        Utils.msg(s, "OfflinePlayer is null");
+        return true;
+      }
+
+      PlaceholderPlayer pl = ex.getPlaceholderHandler().getPlayer(op);
+
+      if (pl == null) {
+        Utils.msg(s, "Player: " + args[1] + " does not have any placeholder data!");
+        return true;
+      }
+
+      Utils.msg(s, "Custom placeholders loaded for player: "+ pl.getName() + " amount: "+ pl.getPlaceholders().size(),
+          pl.getPlaceholders().keySet().toString());
       return true;
     }
 

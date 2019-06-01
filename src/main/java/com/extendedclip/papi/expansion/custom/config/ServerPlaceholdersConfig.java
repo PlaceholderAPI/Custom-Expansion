@@ -21,7 +21,7 @@
 package com.extendedclip.papi.expansion.custom.config;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
-import com.extendedclip.papi.expansion.custom.storage.Storage;
+import com.extendedclip.papi.expansion.custom.storage.ServerStorage;
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
 import com.extendedclip.papi.expansion.custom.util.Utils;
 import me.clip.placeholderapi.PlaceholderAPIPlugin;
@@ -30,7 +30,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.util.Map;
 
-public class ServerPlaceholdersConfig implements Storage {
+public class ServerPlaceholdersConfig implements ServerStorage {
 
 	private CustomExpansion ex;
 	private PlaceholderAPIPlugin plugin;

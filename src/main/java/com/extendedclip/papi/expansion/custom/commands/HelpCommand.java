@@ -39,7 +39,15 @@ public class HelpCommand implements Cmd {
         "/cpe add server <identifier> <value>",
         "/cpe subtract server <identifier> <value>",
         "/cpe multiply server <identifier> <value>",
-        "/cpe divide server <identifier> <value>");
+        "/cpe divide server <identifier> <value>",
+        "/cpe create player <identifier> <type> <value> <player>",
+        "/cpe delete player <identifier> <player>",
+        "/cpe list player <player>",
+        "/cpe set player <identifier> <value> <player>",
+        "/cpe add player <identifier> <value> <player>",
+        "/cpe subtract player <identifier> <value> <player>",
+        "/cpe multiply player <identifier> <value> <player>",
+        "/cpe divide player <identifier> <value> <player>");
 
 
     return false;

@@ -20,19 +20,20 @@
  */
 package com.extendedclip.papi.expansion.custom.placeholder;
 
+import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import org.bukkit.OfflinePlayer;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public final class PlaceholderHandler {
+
+  private CustomExpansion ex;
 
   private final Map<String, Placeholder> SERVER = new HashMap<>();
   private final Set<PlaceholderPlayer> PLAYER = new HashSet<>();
 
-  public PlaceholderHandler() {
+  public PlaceholderHandler(CustomExpansion ex) {
+    this.ex = ex;
   }
 
   public void clear() {
@@ -40,8 +41,13 @@ public final class PlaceholderHandler {
     PLAYER.clear();
   }
 
-  public PlaceholderPlayer getPlayer(OfflinePlayer p) {
-    return PLAYER.stream().filter(cp -> cp.getUUID() == p.getUniqueId()).findFirst().orElse(new PlaceholderPlayer(p.getUniqueId(), p.getName()));
+  public PlaceholderPlayer getPlayer(OfflinePlayer pl) {
+    for (PlaceholderPlayer playa : PLAYER) {
+      if (pl.getUniqueId().toString().equals(playa.getUUID().toString())) {
+        return playa;
+      }
+    }
+    return null;
   }
 
   public Map<String, Placeholder> getServerPlaceholders() {

@@ -23,9 +23,12 @@ package com.extendedclip.papi.expansion.custom.commands;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
+import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
 import com.extendedclip.papi.expansion.custom.util.Utils;
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
@@ -43,16 +46,16 @@ public class SetCommand implements Cmd {
       return true;
     }
 
+    if (args[0].equalsIgnoreCase("player")){
+      // work in progress
+    }
+
+
     if (args[0].equalsIgnoreCase("server")) {
 
       String id = args[1];
 
       Placeholder p = ex.getPlaceholderHandler().getServerPlaceholders().get(id);
-
-      if (p == null) {
-        Utils.msg(s, "The placeholder identifier specified doesn't exist!");
-        return true;
-      }
 
       String val = args[2];
 
