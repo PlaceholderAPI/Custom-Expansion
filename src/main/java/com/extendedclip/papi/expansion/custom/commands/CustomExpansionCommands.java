@@ -35,6 +35,12 @@ public class CustomExpansionCommands extends Command {
   private CreateCommand create;
   private DeleteCommand delete;
   private ListCommand list;
+  private SetCommand set;
+  private AddCommand add;
+  private SubtractCommand subtract;
+  private MultiplyCommand multiply;
+  private DivideCommand divide;
+
 
   public CustomExpansionCommands(CustomExpansion instance) {
     super("cpe",
@@ -47,6 +53,11 @@ public class CustomExpansionCommands extends Command {
     create = new CreateCommand();
     delete = new DeleteCommand();
     list = new ListCommand();
+    set = new SetCommand();
+    add = new AddCommand();
+    subtract = new SubtractCommand();
+    multiply = new MultiplyCommand();
+    divide = new DivideCommand();
 
     expansion = instance;
   }
@@ -74,6 +85,16 @@ public class CustomExpansionCommands extends Command {
         return delete.execute(expansion, sender, subs);
       case "list":
         return list.execute(expansion, sender, subs);
+      case "set":
+        return set.execute(expansion, sender, subs);
+      case "add":
+        return add.execute(expansion, sender, subs);
+      case "subtract":
+        return subtract.execute(expansion, sender, subs);
+      case "multiply":
+        return multiply.execute(expansion, sender, subs);
+      case "divide":
+        return divide.execute(expansion, sender, subs);
     }
 
     return true;

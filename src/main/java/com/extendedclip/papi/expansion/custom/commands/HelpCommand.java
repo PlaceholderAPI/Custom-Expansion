@@ -34,10 +34,12 @@ public class HelpCommand implements Cmd {
     Utils.msg(s, "&aCustomExpansion Help",
         "/cpe create server <identifier> <type> <value>",
         "/cpe delete server <identifier>",
-        "/cpe list server <identifier>",
+        "/cpe list server",
         "/cpe set server <identifier> <value>",
         "/cpe add server <identifier> <value>",
-        "/cpe subtract server <identifier> <value>");
+        "/cpe subtract server <identifier> <value>",
+        "/cpe multiply server <identifier> <value>",
+        "/cpe divide server <identifier> <value>");
 
 
     return false;

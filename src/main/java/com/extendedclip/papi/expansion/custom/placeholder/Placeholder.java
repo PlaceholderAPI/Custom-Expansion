@@ -40,6 +40,10 @@ public class Placeholder {
     return (T) value;
   }
 
+  public void setValue(Object o) {
+    this.value = o;
+  }
+
   public String getKey() {
     return key;
   }

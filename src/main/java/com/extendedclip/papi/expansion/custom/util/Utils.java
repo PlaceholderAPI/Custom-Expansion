@@ -38,25 +38,25 @@ public class Utils {
       case "integer":
         try {
           return Integer.parseInt(str);
-        } catch(Exception e) {
+        } catch (Exception e) {
           return null;
         }
       case "long":
         try {
           return Long.parseLong(str);
-        } catch(Exception e) {
+        } catch (Exception e) {
           return null;
         }
       case "double":
         try {
           return Double.parseDouble(str);
-        } catch(Exception e) {
+        } catch (Exception e) {
           return null;
         }
       case "float":
         try {
           return Float.parseFloat(str);
-        } catch(Exception e) {
+        } catch (Exception e) {
           return null;
         }
       case "boolean":
@@ -65,6 +65,134 @@ public class Utils {
         } else if (str.equalsIgnoreCase("false")) {
           return false;
         }
+    }
+    return null;
+  }
+
+  public static Object doMath(Class<?> type, Object origin, String toAdd, String operator) {
+    if (operator.equals("+")) {
+      switch (type.getSimpleName().toLowerCase()) {
+        case "string":
+        case "boolean":
+          return null;
+        case "integer":
+          try {
+            return (int) origin + Integer.parseInt(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "long":
+          try {
+            return (Long) origin + Long.parseLong(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "double":
+          try {
+            return (Double) origin + Double.parseDouble(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "float":
+          try {
+            return (Float) origin + Float.parseFloat(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+      }
+    }
+    if (operator.equals("-")) {
+      switch (type.getSimpleName().toLowerCase()) {
+        case "string":
+        case "boolean":
+          return null;
+        case "integer":
+          try {
+            return (int) origin - Integer.parseInt(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "long":
+          try {
+            return (Long) origin - Long.parseLong(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "double":
+          try {
+            return (Double) origin - Double.parseDouble(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "float":
+          try {
+            return (Float) origin - Float.parseFloat(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+      }
+    }
+    if (operator.equals("*")) {
+      switch (type.getSimpleName().toLowerCase()) {
+        case "string":
+        case "boolean":
+          return null;
+        case "integer":
+          try {
+            return (int) origin * Integer.parseInt(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "long":
+          try {
+            return (Long) origin * Long.parseLong(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "double":
+          try {
+            return (Double) origin * Double.parseDouble(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "float":
+          try {
+            return (Float) origin * Float.parseFloat(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+      }
+    }
+    if (operator.equals("/")) {
+      switch (type.getSimpleName().toLowerCase()) {
+        case "string":
+        case "boolean":
+          return null;
+        case "integer":
+          try {
+            return (int) origin / Integer.parseInt(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "long":
+          try {
+            return (Long) origin / Long.parseLong(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "double":
+          try {
+            return (Double) origin / Double.parseDouble(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+        case "float":
+          try {
+            return (Float) origin / Float.parseFloat(toAdd);
+          } catch (Exception e) {
+            return null;
+          }
+      }
     }
     return null;
   }
