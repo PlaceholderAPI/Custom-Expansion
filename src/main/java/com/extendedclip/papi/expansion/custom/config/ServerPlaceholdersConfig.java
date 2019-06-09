@@ -68,7 +68,15 @@ public class ServerPlaceholdersConfig implements ServerStorage {
 			c.set(key+".type", p.getClassType().getSimpleName());
 			c.set(key+".value", p.getValue());
 		}
+		return config.save();
+	}
 
+	public boolean delete(String key) {
+		FileConfiguration c = config.getConfig();
+		if (c == null) {
+			return false;
+		}
+		c.set(key, null);
 		return config.save();
 	}
 

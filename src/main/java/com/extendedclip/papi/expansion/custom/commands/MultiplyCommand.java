@@ -43,7 +43,7 @@ public class MultiplyCommand implements Cmd {
       String id = args[1];
       Placeholder p = ex.getPlaceholderHandler().getServerPlaceholders().get(id);
       if (p == null) {
-        Utils.msg(s, "Placeholder id specified doesn't exist!");
+        Utils.msg(s, "Placeholder id  doesn't exist!");
         return true;
       }
       Object obj = Utils.doMath(p.getClassType(), p.getValue(), args[2], "*");

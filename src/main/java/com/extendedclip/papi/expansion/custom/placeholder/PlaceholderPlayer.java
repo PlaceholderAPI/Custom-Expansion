@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public class PlaceholderPlayer {
 
-  private Map<String, Placeholder> PLACEHOLDERS = new HashMap<>();
+  private static final Map<String, Placeholder> PLACEHOLDERS = new HashMap<>();
 
   private UUID playerUUID;
   private String name;

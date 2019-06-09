@@ -32,24 +32,9 @@ public class HelpCommand implements Cmd {
 
     // temp hardcoded for now to test
     Utils.msg(s, "&aCustomExpansion Help",
-        "/cpe create server <identifier> <type> <value>",
-        "/cpe delete server <identifier>",
-        "/cpe list server",
-        "/cpe set server <identifier> <value>",
-        "/cpe add server <identifier> <value>",
-        "/cpe subtract server <identifier> <value>",
-        "/cpe multiply server <identifier> <value>",
-        "/cpe divide server <identifier> <value>",
-        "/cpe create player <identifier> <type> <value> <player>",
-        "/cpe delete player <identifier> <player>",
-        "/cpe list player <player>",
-        "/cpe set player <identifier> <value> <player>",
-        "/cpe add player <identifier> <value> <player>",
-        "/cpe subtract player <identifier> <value> <player>",
-        "/cpe multiply player <identifier> <value> <player>",
-        "/cpe divide player <identifier> <value> <player>");
-
-
+        "/cpe create <server/pdefault> <id> <type> <value>",
+        "/cpe set <server/player/pdefault> <id> <value> (player)",
+        "/cpe delete <server/player/pdefault> <key> (player)");
     return false;
   }
 }

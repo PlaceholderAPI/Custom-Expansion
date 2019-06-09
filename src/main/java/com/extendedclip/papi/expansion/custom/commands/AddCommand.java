@@ -22,8 +22,11 @@ package com.extendedclip.papi.expansion.custom.commands;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
+import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
 import com.extendedclip.papi.expansion.custom.util.Utils;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class AddCommand implements Cmd {
 
@@ -38,6 +41,12 @@ public class AddCommand implements Cmd {
       Utils.msg(s, getUsage());
       return true;
     }
+
+    if (args[0].equalsIgnoreCase("player")) {
+
+    }
+
+
     if (args[0].equalsIgnoreCase("server")) {
       String id = args[1];
       Placeholder p = ex.getPlaceholderHandler().getServerPlaceholders().get(id);

@@ -41,6 +41,7 @@ import org.bukkit.command.SimpleCommandMap;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public final class CustomExpansion extends PlaceholderExpansion implements Cacheable, Configurable {
 
@@ -86,18 +87,19 @@ public final class CustomExpansion extends PlaceholderExpansion implements Cache
       return false;
     }
 
+    // init storage
     switch(getString("storage_type", "yml")) {
       case "yml":
-        // server
-        serverPlaceholderStorage = new ServerPlaceholdersConfig(this);
-        serverPlaceholderStorage.init();
-        log(serverPlaceholderStorage.load() + " custom server placeholders loaded");
-        // player
-        playerPlaceholderStorage = new PlayerPlaceholdersConfig(this);
-        playerPlaceholderStorage.init();
-        log(playerPlaceholderStorage.load() + " players loaded");
+        Stream.of(
+                new ServerPlaceholdersConfig(this),
+                new PlayerPlaceholdersConfig(this)
+        ).forEach(s -> {
+          s.init();
+          log(s.load() + " " + s.getClass().getName() + " loaded");
+        });
     }
 
+    // register
     return super.register();
   }
 

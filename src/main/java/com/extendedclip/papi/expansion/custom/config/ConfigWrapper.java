@@ -44,6 +44,7 @@ public class ConfigWrapper {
     if (config == null) {
       load();
     }
+
     return config;
   }
 
@@ -58,12 +59,14 @@ public class ConfigWrapper {
     if (config == null || configFile == null) {
       return false;
     }
+
     try {
       getConfig().save(configFile);
       return true;
     } catch (final IOException ex) {
       expansion.log("[WARNING] Could not save config to " + configFile);
     }
+
     return false;
   }
 }

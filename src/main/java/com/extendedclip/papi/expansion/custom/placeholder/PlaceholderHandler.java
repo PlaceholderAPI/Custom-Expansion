@@ -29,8 +29,9 @@ public final class PlaceholderHandler {
 
   private CustomExpansion ex;
 
-  private final Map<String, Placeholder> SERVER = new HashMap<>();
-  private final Set<PlaceholderPlayer> PLAYER = new HashSet<>();
+  private static final Map<String, Placeholder> SERVER = new HashMap<>();
+  private static final Set<PlaceholderPlayer> PLAYER = new HashSet<>();
+  private static final Map<String, Placeholder> PLAYER_DEFAULTS = new HashMap<>();
 
   public PlaceholderHandler(CustomExpansion ex) {
     this.ex = ex;
@@ -56,5 +57,9 @@ public final class PlaceholderHandler {
 
   public Set<PlaceholderPlayer> getPlayerPlaceholders() {
     return PLAYER;
+  }
+
+  public Map<String, Placeholder> getPlayerPlaceholderDefaults() {
+    return PLAYER_DEFAULTS;
   }
 }

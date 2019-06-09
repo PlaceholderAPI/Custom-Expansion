@@ -197,11 +197,6 @@ public class Utils {
     return null;
   }
 
-  public static Class<?> getClassFromValue(String str) {
-    // this is probably dead
-     return null;
-  }
-
   public static Class<?> getSupportedClassType(String type) {
     switch (type.toLowerCase()) {
       case "string":

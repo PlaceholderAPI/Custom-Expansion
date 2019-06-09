@@ -20,12 +20,7 @@
  */
 package com.extendedclip.papi.expansion.custom.storage;
 
-import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
-import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
-
-public interface PlayerStorage extends Storage {
-  boolean saveDefault(String id, Placeholder p);
-  boolean deleteDefault(String id);
-  boolean save(PlaceholderPlayer player, String id, Placeholder p);
-  boolean delete(PlaceholderPlayer player, String id);
+public interface Storage {
+    void init();
+    int load();
 }

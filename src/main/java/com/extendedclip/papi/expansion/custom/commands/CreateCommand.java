@@ -23,23 +23,17 @@ package com.extendedclip.papi.expansion.custom.commands;
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
-import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
 import com.extendedclip.papi.expansion.custom.util.Utils;
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
-import javax.rmi.CORBA.Util;
 import java.util.Arrays;
 
 public class CreateCommand implements Cmd {
 
   @Override
   public String getUsage() {
-    return "/cpe create <server/player> <id> <type> <value> (player)";
+    return "/cpe create <server/playerdefault> <id> <type> <value>";
   }
 
   @Override
@@ -49,34 +43,13 @@ public class CreateCommand implements Cmd {
       return true;
     }
 
-    if (args[0].equalsIgnoreCase("player")) {
-
-      if (args.length < 5) {
-        Utils.msg(s, getUsage());
-        return true;
-      }
-
-      String player = args[args.length-1];
-
-      Player p = Bukkit.getPlayer(player);
-
-      if (p == null) {
-        Utils.msg(s, player + " is not online!");
-        return true;
-      }
-
-      PlaceholderPlayer pp = ex.getPlaceholderHandler().getPlayer(p);
-
-      boolean newUser = false;
-      if (pp == null) {
-        pp = new PlaceholderPlayer(p.getUniqueId(), p.getName());
-        newUser = true;
-      }
+    if (args[0].equalsIgnoreCase("playerdefault")) {
 
       String id = args[1];
 
-      if (pp.getPlaceholder(id) != null) {
-        Utils.msg(s, player + " already has a value set for placeholder: " + id);
+      if (ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().containsKey(id)) {
+        // placeholder already exists
+        Utils.msg(s, "Player placeholder default identifier: " + id + " already exists!");
         return true;
       }
 
@@ -88,7 +61,7 @@ public class CreateCommand implements Cmd {
         return true;
       }
 
-      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length-1), " ");
+      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length), " ");
 
       Object obj = Utils.getObject(type, val);
 
@@ -98,15 +71,11 @@ public class CreateCommand implements Cmd {
         return true;
       }
 
-      Placeholder placeholder = new Placeholder(id, type, obj);
-      pp.setPlaceholder(id, placeholder);
-      if (newUser) {
-        ex.getPlaceholderHandler().getPlayerPlaceholders().add(pp);
-      }
-      ex.getPlayerPlaceholderStorage().add(pp, placeholder);
-
+      Placeholder p = new Placeholder(id, type, obj);
+      ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().put(id, p);
+      ex.getPlayerPlaceholderStorage().saveDefault(id, p);
       // success
-      Utils.msg(s, "Placeholder: " + id + " for player: " + p.getName() + " successfully created!");
+      Utils.msg(s, "Player placeholder: " + id + " successfully created!");
       return true;
     }
 
@@ -143,7 +112,7 @@ public class CreateCommand implements Cmd {
       ex.getServerPlaceholderStorage().save(id, p);
 
       // success
-      Utils.msg(s, "Placeholder: " + id + " successfully created!");
+      Utils.msg(s, "Server placeholder: " + id + " successfully created!");
       return true;
     }
 

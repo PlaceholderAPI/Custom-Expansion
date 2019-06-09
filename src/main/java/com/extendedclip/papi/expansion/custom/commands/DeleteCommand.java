@@ -37,13 +37,27 @@ public class DeleteCommand implements Cmd {
 
   @Override
   public String getUsage() {
-    return "/cpe delete <server/player> <key> (player)";
+    return "/cpe delete <server/player/playerdefault> <key> (player)";
   }
 
   @Override
   public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
     if (args.length < 2) {
       Utils.msg(s, getUsage());
+      return true;
+    }
+
+    if (args[0].equalsIgnoreCase("playerdefault")) {
+      String id = args[1];
+
+      if (!ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().containsKey(id)) {
+        Utils.msg(s, "Player placeholder default specified does not exist");
+        return true;
+      }
+
+      ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().remove(id);
+      ex.getPlayerPlaceholderStorage().deleteDefault(id);
+      Utils.msg(s, "Player placeholder: " + id + " successfully deleted");
       return true;
     }
 
@@ -75,7 +89,7 @@ public class DeleteCommand implements Cmd {
         return true;
       }
 
-      ex.getPlayerPlaceholderStorage().remove(pl, id);
+      ex.getPlayerPlaceholderStorage().delete(pl, id);
       Utils.msg(s, "Custom placeholder: " + id + " successfully deleted for player: " + pl.getName());
       return true;
     }

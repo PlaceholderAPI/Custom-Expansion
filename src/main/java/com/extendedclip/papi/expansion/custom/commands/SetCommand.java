@@ -32,11 +32,12 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
+
 public class SetCommand implements Cmd {
 
   @Override
   public String getUsage() {
-    return "/cpe set <server/player> <id> <value> (player)";
+    return "/cpe set <server/player/pdefault> <id> <value> (player)";
   }
 
   @Override
@@ -46,19 +47,73 @@ public class SetCommand implements Cmd {
       return true;
     }
 
-    if (args[0].equalsIgnoreCase("player")){
-      // work in progress
+    if (args[0].equalsIgnoreCase("pdefault")) {
+      String id = args[1];
+      Placeholder def = ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().get(id);
+      if (def == null) {
+        Utils.msg(s, "The placeholder specified does not exist!");
+        return true;
+      }
+
+      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length), " ");
+      Object obj = Utils.getObject(def.getClassType(), val);
+      if (obj == null) {
+        Utils.msg(s, "The value specified is not supported for this placeholder!");
+        return true;
+      }
+      def.setValue(obj);
+      ex.getPlayerPlaceholderStorage().saveDefault(def.getKey(), def);
+      Utils.msg(s, "Player placeholder default: " + def.getKey() + " set to: " + def.getValue());
+      return true;
     }
 
+    if (args[0].equalsIgnoreCase("player")) {
+      String id = args[1];
+      Placeholder def = ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().get(id);
+      if (def == null) {
+        Utils.msg(s, "The placeholder specified does not exist!");
+        return true;
+      }
+      if (args.length < 4) {
+        Utils.msg(s, "Incorrect usage! /cpe set player <id> <value> <player>");
+        return true;
+      }
+      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length - 2), " ");
+      Object obj = Utils.getObject(def.getClassType(), val);
+      if (obj == null) {
+        Utils.msg(s, "The value specified is not supported for this placeholder!");
+        return true;
+      }
+
+      Player p = Bukkit.getPlayer(args[args.length - 1]);
+
+      if (p == null) {
+        Utils.msg(s, args[args.length - 1] + " is not online!");
+        return true;
+      }
+
+      PlaceholderPlayer pl = ex.getPlaceholderHandler().getPlayer(p);
+
+      if (pl == null) {
+        pl = new PlaceholderPlayer(p.getUniqueId(), p.getName());
+        ex.getPlaceholderHandler().getPlayerPlaceholders().add(pl);
+      }
+      Placeholder placeholder = new Placeholder(id, def.getClassType(), val);
+      pl.setPlaceholder(id, placeholder);
+      ex.getPlayerPlaceholderStorage().save(pl, id, placeholder);
+      Utils.msg(s, "Player placeholder: " + id + " set to value: " + val + " for player: " + p.getName());
+      return true;
+    }
 
     if (args[0].equalsIgnoreCase("server")) {
 
       String id = args[1];
-
       Placeholder p = ex.getPlaceholderHandler().getServerPlaceholders().get(id);
-
-      String val = args[2];
-
+      if (p == null) {
+        Utils.msg(s, "The placeholder specified does not exist!");
+        return true;
+      }
+      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length - 1), " ");
       Object obj = Utils.getObject(p.getClassType(), val);
 
       if (obj == null) {
@@ -67,12 +122,10 @@ public class SetCommand implements Cmd {
       }
 
       p.setValue(obj);
-
       ex.getServerPlaceholderStorage().save(p.getKey(), p);
-
       Utils.msg(s, "Placeholder: " + p.getKey() + " set to: " + p.getValue());
       return true;
     }
     return true;
   }
-  }
+}

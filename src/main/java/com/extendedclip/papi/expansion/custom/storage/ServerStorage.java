@@ -22,8 +22,7 @@ package com.extendedclip.papi.expansion.custom.storage;
 
 import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
 
-public interface ServerStorage {
-  void init();
+public interface ServerStorage extends Storage {
   boolean save(String key, Placeholder p);
-  int load();
+  boolean delete(String key);
 }
