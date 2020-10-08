@@ -29,44 +29,44 @@ import java.io.IOException;
 
 public class ConfigWrapper {
 
-  private CustomExpansion expansion;
-  private FileConfiguration config;
-  private File configFile;
-  private final String folderName, fileName;
+    private final String folderName, fileName;
+    private final CustomExpansion expansion;
+    private FileConfiguration config;
+    private File configFile;
 
-  public ConfigWrapper(final CustomExpansion ex, final String folderName, final String fileName) {
-    this.expansion = ex;
-    this.folderName = folderName;
-    this.fileName = fileName;
-  }
-
-  public FileConfiguration getConfig() {
-    if (config == null) {
-      load();
+    public ConfigWrapper(final CustomExpansion ex, final String folderName, final String fileName) {
+        this.expansion = ex;
+        this.folderName = folderName;
+        this.fileName = fileName;
     }
 
-    return config;
-  }
+    public FileConfiguration getConfig() {
+        if (config == null) {
+            load();
+        }
 
-  public void load() {
-    if (configFile == null) {
-      configFile = new File(folderName, fileName);
-    }
-    config = YamlConfiguration.loadConfiguration(configFile);
-  }
-
-  public boolean save() {
-    if (config == null || configFile == null) {
-      return false;
+        return config;
     }
 
-    try {
-      getConfig().save(configFile);
-      return true;
-    } catch (final IOException ex) {
-      expansion.log("[WARNING] Could not save config to " + configFile);
+    public void load() {
+        if (configFile == null) {
+            configFile = new File(folderName, fileName);
+        }
+        config = YamlConfiguration.loadConfiguration(configFile);
     }
 
-    return false;
-  }
+    public boolean save() {
+        if (config == null || configFile == null) {
+            return false;
+        }
+
+        try {
+            getConfig().save(configFile);
+            return true;
+        } catch (final IOException ex) {
+            expansion.log("[WARNING] Could not save config to " + configFile);
+        }
+
+        return false;
+    }
 }

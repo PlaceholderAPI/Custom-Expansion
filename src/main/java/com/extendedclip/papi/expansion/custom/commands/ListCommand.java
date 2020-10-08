@@ -22,7 +22,6 @@ package com.extendedclip.papi.expansion.custom.commands;
 
 
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
-import com.extendedclip.papi.expansion.custom.placeholder.Placeholder;
 import com.extendedclip.papi.expansion.custom.placeholder.PlaceholderPlayer;
 import com.extendedclip.papi.expansion.custom.util.Utils;
 import org.bukkit.Bukkit;
@@ -31,47 +30,47 @@ import org.bukkit.command.CommandSender;
 
 public class ListCommand implements Cmd {
 
-  @Override
-  public String getUsage() {
-    return "/cpe list <server/player> (player)";
-  }
-
-  @Override
-  public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
-    if (args.length < 1) {
-      Utils.msg(s, getUsage());
-      return true;
+    @Override
+    public String getUsage() {
+        return "/cpe list <server/player> (player)";
     }
 
-    if (args[0].equalsIgnoreCase("player"))  {
-      if (args.length < 2) {
-        Utils.msg(s, getUsage());
-        return true;
-      }
+    @Override
+    public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
+        if (args.length < 1) {
+            Utils.msg(s, getUsage());
+            return true;
+        }
 
-      OfflinePlayer op = Bukkit.getPlayer(args[1]);
+        if (args[0].equalsIgnoreCase("player")) {
+            if (args.length < 2) {
+                Utils.msg(s, getUsage());
+                return true;
+            }
 
-      if (op == null) {
-        Utils.msg(s, "OfflinePlayer is null");
-        return true;
-      }
+            OfflinePlayer op = Bukkit.getPlayer(args[1]);
 
-      PlaceholderPlayer pl = ex.getPlaceholderHandler().getPlayer(op);
+            if (op == null) {
+                Utils.msg(s, "OfflinePlayer is null");
+                return true;
+            }
 
-      if (pl == null) {
-        Utils.msg(s, "Player: " + args[1] + " does not have any placeholder data!");
-        return true;
-      }
+            PlaceholderPlayer pl = ex.getPlaceholderHandler().getPlayer(op);
 
-      Utils.msg(s, "Custom placeholders loaded for player: "+ pl.getName() + " amount: "+ pl.getPlaceholders().size(),
-          pl.getPlaceholders().keySet().toString());
-      return true;
+            if (pl == null) {
+                Utils.msg(s, "Player: " + args[1] + " does not have any placeholder data!");
+                return true;
+            }
+
+            Utils.msg(s, "Custom placeholders loaded for player: " + pl.getName() + " amount: " + pl.getPlaceholders().size(),
+                    pl.getPlaceholders().keySet().toString());
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("server")) {
+            Utils.msg(s, "Custom placeholders loaded: " + ex.getPlaceholderHandler().getServerPlaceholders().size(), ex.getPlaceholderHandler().getServerPlaceholders().keySet().toString());
+            return true;
+        }
+        return false;
     }
-
-    if (args[0].equalsIgnoreCase("server"))  {
-      Utils.msg(s, "Custom placeholders loaded: " + ex.getPlaceholderHandler().getServerPlaceholders().size(), ex.getPlaceholderHandler().getServerPlaceholders().keySet().toString());
-      return true;
-    }
-    return false;
-  }
 }

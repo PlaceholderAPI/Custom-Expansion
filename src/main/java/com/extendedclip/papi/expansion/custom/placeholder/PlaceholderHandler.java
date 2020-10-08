@@ -23,43 +23,45 @@ package com.extendedclip.papi.expansion.custom.placeholder;
 import com.extendedclip.papi.expansion.custom.CustomExpansion;
 import org.bukkit.OfflinePlayer;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public final class PlaceholderHandler {
 
-  private CustomExpansion ex;
+    private static final Map<String, Placeholder> SERVER = new HashMap<>();
+    private static final Set<PlaceholderPlayer> PLAYER = new HashSet<>();
+    private static final Map<String, Placeholder> PLAYER_DEFAULTS = new HashMap<>();
+    private final CustomExpansion ex;
 
-  private static final Map<String, Placeholder> SERVER = new HashMap<>();
-  private static final Set<PlaceholderPlayer> PLAYER = new HashSet<>();
-  private static final Map<String, Placeholder> PLAYER_DEFAULTS = new HashMap<>();
-
-  public PlaceholderHandler(CustomExpansion ex) {
-    this.ex = ex;
-  }
-
-  public void clear() {
-    SERVER.clear();
-    PLAYER.clear();
-  }
-
-  public PlaceholderPlayer getPlayer(OfflinePlayer pl) {
-    for (PlaceholderPlayer playa : PLAYER) {
-      if (pl.getUniqueId().toString().equals(playa.getUUID().toString())) {
-        return playa;
-      }
+    public PlaceholderHandler(CustomExpansion ex) {
+        this.ex = ex;
     }
-    return null;
-  }
 
-  public Map<String, Placeholder> getServerPlaceholders() {
-    return SERVER;
-  }
+    public void clear() {
+        SERVER.clear();
+        PLAYER.clear();
+    }
 
-  public Set<PlaceholderPlayer> getPlayerPlaceholders() {
-    return PLAYER;
-  }
+    public PlaceholderPlayer getPlayer(OfflinePlayer pl) {
+        for (PlaceholderPlayer playa : PLAYER) {
+            if (pl.getUniqueId().toString().equals(playa.getUUID().toString())) {
+                return playa;
+            }
+        }
+        return null;
+    }
 
-  public Map<String, Placeholder> getPlayerPlaceholderDefaults() {
-    return PLAYER_DEFAULTS;
-  }
+    public Map<String, Placeholder> getServerPlaceholders() {
+        return SERVER;
+    }
+
+    public Set<PlaceholderPlayer> getPlayerPlaceholders() {
+        return PLAYER;
+    }
+
+    public Map<String, Placeholder> getPlayerPlaceholderDefaults() {
+        return PLAYER_DEFAULTS;
+    }
 }

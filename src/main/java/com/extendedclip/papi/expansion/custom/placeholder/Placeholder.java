@@ -22,29 +22,29 @@ package com.extendedclip.papi.expansion.custom.placeholder;
 
 public class Placeholder {
 
-  private String key;
-  private Class<?> type;
-  private Object value;
+    private final String key;
+    private final Class<?> type;
+    private Object value;
 
-  public Placeholder(String key, Class<?> clazz, Object value) {
-    this.key = key;
-    this.type = clazz;
-    this.value = value;
-  }
+    public Placeholder(String key, Class<?> clazz, Object value) {
+        this.key = key;
+        this.type = clazz;
+        this.value = value;
+    }
 
-  public Class<?> getClassType() {
-    return type;
-  }
+    public Class<?> getClassType() {
+        return type;
+    }
 
-  public <T> T getValue() {
-    return (T) value;
-  }
+    public <T> T getValue() {
+        return (T) value;
+    }
 
-  public void setValue(Object o) {
-    this.value = o;
-  }
+    public void setValue(Object o) {
+        this.value = o;
+    }
 
-  public String getKey() {
-    return key;
-  }
+    public String getKey() {
+        return key;
+    }
 }

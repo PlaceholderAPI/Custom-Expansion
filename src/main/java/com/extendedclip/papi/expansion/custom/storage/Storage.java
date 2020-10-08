@@ -22,5 +22,6 @@ package com.extendedclip.papi.expansion.custom.storage;
 
 public interface Storage {
     void init();
+
     int load();
 }

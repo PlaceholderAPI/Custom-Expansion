@@ -27,14 +27,14 @@ import org.bukkit.command.CommandSender;
 
 public class HelpCommand implements Cmd {
 
-  @Override
-  public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
+    @Override
+    public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
 
-    // temp hardcoded for now to test
-    Utils.msg(s, "&aCustomExpansion Help",
-        "/cpe create <server/pdefault> <id> <type> <value>",
-        "/cpe set <server/player/pdefault> <id> <value> (player)",
-        "/cpe delete <server/player/pdefault> <key> (player)");
-    return false;
-  }
+        // temp hardcoded for now to test
+        Utils.msg(s, "&aCustomExpansion Help",
+                "/cpe create <server/pdefault> <id> <type> <value>",
+                "/cpe set <server/player/pdefault> <id> <value> (player)",
+                "/cpe delete <server/player/pdefault> <key> (player)");
+        return false;
+    }
 }

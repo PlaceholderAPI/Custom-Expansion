@@ -28,34 +28,34 @@ import org.bukkit.command.CommandSender;
 
 public class DivideCommand implements Cmd {
 
-  @Override
-  public String getUsage() {
-    return "/cpe divide <server/player> <id> <value> (player)";
-  }
+    @Override
+    public String getUsage() {
+        return "/cpe divide <server/player> <id> <value> (player)";
+    }
 
-  @Override
-  public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
-    if (args.length < 3) {
-      Utils.msg(s, getUsage());
-      return true;
+    @Override
+    public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
+        if (args.length < 3) {
+            Utils.msg(s, getUsage());
+            return true;
+        }
+        if (args[0].equalsIgnoreCase("server")) {
+            String id = args[1];
+            Placeholder p = ex.getPlaceholderHandler().getServerPlaceholders().get(id);
+            if (p == null) {
+                Utils.msg(s, "Placeholder id specified doesn't exist!");
+                return true;
+            }
+            Object obj = Utils.doMath(p.getClassType(), p.getValue(), args[2], "/");
+            if (obj == null) {
+                Utils.msg(s, "The value specified is not the correct type for this placeholder!");
+                return true;
+            }
+            p.setValue(obj);
+            ex.getServerPlaceholderStorage().save(p.getKey(), p);
+            Utils.msg(s, "Divided: " + args[2] + " to placeholder: " + id, "New value:" + obj);
+            return true;
+        }
+        return false;
     }
-    if (args[0].equalsIgnoreCase("server")) {
-      String id = args[1];
-      Placeholder p = ex.getPlaceholderHandler().getServerPlaceholders().get(id);
-      if (p == null) {
-        Utils.msg(s, "Placeholder id specified doesn't exist!");
-        return true;
-      }
-      Object obj = Utils.doMath(p.getClassType(), p.getValue(), args[2], "/");
-      if (obj == null) {
-        Utils.msg(s, "The value specified is not the correct type for this placeholder!");
-        return true;
-      }
-      p.setValue(obj);
-      ex.getServerPlaceholderStorage().save(p.getKey(), p);
-      Utils.msg(s, "Divided: " + args[2] + " to placeholder: " + id, "New value:" + obj);
-      return true;
-    }
-    return false;
-  }
 }

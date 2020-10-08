@@ -30,56 +30,58 @@ import java.util.UUID;
 
 public class PlaceholderPlayer {
 
-  private static final Map<String, Placeholder> PLACEHOLDERS = new HashMap<>();
+    private static final Map<String, Placeholder> PLACEHOLDERS = new HashMap<>();
 
-  private UUID playerUUID;
-  private String name;
+    private final UUID playerUUID;
+    private String name;
 
-  public PlaceholderPlayer(UUID uuid) {
-    this.playerUUID = uuid;
-  }
+    public PlaceholderPlayer(UUID uuid) {
+        this.playerUUID = uuid;
+    }
 
-  public PlaceholderPlayer(UUID uuid, String name) {
-    this.playerUUID = uuid;
-    this.name = name;
-  }
+    public PlaceholderPlayer(UUID uuid, String name) {
+        this.playerUUID = uuid;
+        this.name = name;
+    }
 
-  public UUID getUUID() {
-    return playerUUID;
-  }
+    public UUID getUUID() {
+        return playerUUID;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public OfflinePlayer getPlayer() {
-    return Bukkit.getOfflinePlayer(playerUUID);
-  }
-  public Map<String, Placeholder> getPlaceholders() {
-    return PLACEHOLDERS;
-  }
-  public Placeholder getPlaceholder(String id) {
-    return Optional.ofNullable(PLACEHOLDERS.get(id)).orElse(null);
-  }
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(playerUUID);
+    }
 
-  public void setPlaceholders(Map<String, Placeholder> placeholders) {
-    PLACEHOLDERS.clear();
-    PLACEHOLDERS.putAll(placeholders);
-  }
+    public Map<String, Placeholder> getPlaceholders() {
+        return PLACEHOLDERS;
+    }
 
-  public void setPlaceholder(String s, Placeholder p) {
-    PLACEHOLDERS.put(s, p);
-  }
+    public void setPlaceholders(Map<String, Placeholder> placeholders) {
+        PLACEHOLDERS.clear();
+        PLACEHOLDERS.putAll(placeholders);
+    }
 
-  public boolean containsValidPlaceholder(String s) {
-    return PLACEHOLDERS.containsKey(s) && PLACEHOLDERS.get(s) != null;
-  }
+    public Placeholder getPlaceholder(String id) {
+        return Optional.ofNullable(PLACEHOLDERS.get(id)).orElse(null);
+    }
 
-  public boolean removePlaceholder(String s) {
-    return PLACEHOLDERS.remove(s) != null;
-  }
+    public void setPlaceholder(String s, Placeholder p) {
+        PLACEHOLDERS.put(s, p);
+    }
+
+    public boolean containsValidPlaceholder(String s) {
+        return PLACEHOLDERS.containsKey(s) && PLACEHOLDERS.get(s) != null;
+    }
+
+    public boolean removePlaceholder(String s) {
+        return PLACEHOLDERS.remove(s) != null;
+    }
 }

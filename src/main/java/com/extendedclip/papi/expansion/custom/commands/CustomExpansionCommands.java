@@ -29,74 +29,74 @@ import org.bukkit.entity.Player;
 
 public class CustomExpansionCommands extends Command {
 
-  private CustomExpansion expansion;
+    private final CustomExpansion expansion;
 
-  private HelpCommand help;
-  private CreateCommand create;
-  private DeleteCommand delete;
-  private ListCommand list;
-  private SetCommand set;
-  private AddCommand add;
-  private SubtractCommand subtract;
-  private MultiplyCommand multiply;
-  private DivideCommand divide;
+    private final HelpCommand help;
+    private final CreateCommand create;
+    private final DeleteCommand delete;
+    private final ListCommand list;
+    private final SetCommand set;
+    private final AddCommand add;
+    private final SubtractCommand subtract;
+    private final MultiplyCommand multiply;
+    private final DivideCommand divide;
 
 
-  public CustomExpansionCommands(CustomExpansion instance) {
-    super("cpe",
-        "manage custom placeholders",
-        "/cpe <player/server> <create/delete/list/set/add/subtract> <identifier> <value> (player)",
-        Lists.newArrayList("customplaceholderexpansion", "customplaceholders"));
+    public CustomExpansionCommands(CustomExpansion instance) {
+        super("cpe",
+                "manage custom placeholders",
+                "/cpe <player/server> <create/delete/list/set/add/subtract> <identifier> <value> (player)",
+                Lists.newArrayList("customplaceholderexpansion", "customplaceholders"));
 
-    // subcommands
-    help = new HelpCommand();
-    create = new CreateCommand();
-    delete = new DeleteCommand();
-    list = new ListCommand();
-    set = new SetCommand();
-    add = new AddCommand();
-    subtract = new SubtractCommand();
-    multiply = new MultiplyCommand();
-    divide = new DivideCommand();
+        // subcommands
+        help = new HelpCommand();
+        create = new CreateCommand();
+        delete = new DeleteCommand();
+        list = new ListCommand();
+        set = new SetCommand();
+        add = new AddCommand();
+        subtract = new SubtractCommand();
+        multiply = new MultiplyCommand();
+        divide = new DivideCommand();
 
-    expansion = instance;
-  }
-
-  @Override
-  public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-    if ((sender instanceof Player) && !sender.hasPermission("customexpansion.admin")) {
-      // no perms
-      return true;
+        expansion = instance;
     }
 
-    if (args.length == 0) {
-      // info
-      return true;
+    @Override
+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
+        if ((sender instanceof Player) && !sender.hasPermission("customexpansion.admin")) {
+            // no perms
+            return true;
+        }
+
+        if (args.length == 0) {
+            // info
+            return true;
+        }
+
+        String[] subs = (String[]) ArrayUtils.remove(args, 0);
+
+        switch (args[0]) {
+            case "help":
+                return help.execute(expansion, sender, subs);
+            case "create":
+                return create.execute(expansion, sender, subs);
+            case "delete":
+                return delete.execute(expansion, sender, subs);
+            case "list":
+                return list.execute(expansion, sender, subs);
+            case "set":
+                return set.execute(expansion, sender, subs);
+            case "add":
+                return add.execute(expansion, sender, subs);
+            case "subtract":
+                return subtract.execute(expansion, sender, subs);
+            case "multiply":
+                return multiply.execute(expansion, sender, subs);
+            case "divide":
+                return divide.execute(expansion, sender, subs);
+        }
+
+        return true;
     }
-
-    String[] subs = (String[]) ArrayUtils.remove(args, 0);
-
-    switch(args[0]) {
-      case "help":
-        return help.execute(expansion, sender, subs);
-      case "create":
-        return create.execute(expansion, sender, subs);
-      case "delete":
-        return delete.execute(expansion, sender, subs);
-      case "list":
-        return list.execute(expansion, sender, subs);
-      case "set":
-        return set.execute(expansion, sender, subs);
-      case "add":
-        return add.execute(expansion, sender, subs);
-      case "subtract":
-        return subtract.execute(expansion, sender, subs);
-      case "multiply":
-        return multiply.execute(expansion, sender, subs);
-      case "divide":
-        return divide.execute(expansion, sender, subs);
-    }
-
-    return true;
-  }
 }

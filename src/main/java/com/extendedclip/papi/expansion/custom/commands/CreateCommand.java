@@ -31,91 +31,91 @@ import java.util.Arrays;
 
 public class CreateCommand implements Cmd {
 
-  @Override
-  public String getUsage() {
-    return "/cpe create <server/playerdefault> <id> <type> <value>";
-  }
-
-  @Override
-  public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
-    if (args.length < 4) {
-      Utils.msg(s, getUsage());
-      return true;
+    @Override
+    public String getUsage() {
+        return "/cpe create <server/playerdefault> <id> <type> <value>";
     }
 
-    if (args[0].equalsIgnoreCase("playerdefault")) {
+    @Override
+    public boolean execute(CustomExpansion ex, CommandSender s, String[] args) {
+        if (args.length < 4) {
+            Utils.msg(s, getUsage());
+            return true;
+        }
 
-      String id = args[1];
+        if (args[0].equalsIgnoreCase("playerdefault")) {
 
-      if (ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().containsKey(id)) {
-        // placeholder already exists
-        Utils.msg(s, "Player placeholder default identifier: " + id + " already exists!");
-        return true;
-      }
+            String id = args[1];
 
-      Class<?> type = Utils.getSupportedClassType(args[2]);
+            if (ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().containsKey(id)) {
+                // placeholder already exists
+                Utils.msg(s, "Player placeholder default identifier: " + id + " already exists!");
+                return true;
+            }
 
-      if (type == null) {
-        // the type is invalid
-        Utils.msg(s, "Type: " + args[2] + " is not a valid type!");
-        return true;
-      }
+            Class<?> type = Utils.getSupportedClassType(args[2]);
 
-      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length), " ");
+            if (type == null) {
+                // the type is invalid
+                Utils.msg(s, "Type: " + args[2] + " is not a valid type!");
+                return true;
+            }
 
-      Object obj = Utils.getObject(type, val);
+            String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length), " ");
 
-      if (obj == null) {
-        // object isn't the correct type
-        Utils.msg(s, "Value: " + val + " is not the correct type for type specified: " + type.getSimpleName());
-        return true;
-      }
+            Object obj = Utils.getObject(type, val);
 
-      Placeholder p = new Placeholder(id, type, obj);
-      ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().put(id, p);
-      ex.getPlayerPlaceholderStorage().saveDefault(id, p);
-      // success
-      Utils.msg(s, "Player placeholder: " + id + " successfully created!");
-      return true;
+            if (obj == null) {
+                // object isn't the correct type
+                Utils.msg(s, "Value: " + val + " is not the correct type for type specified: " + type.getSimpleName());
+                return true;
+            }
+
+            Placeholder p = new Placeholder(id, type, obj);
+            ex.getPlaceholderHandler().getPlayerPlaceholderDefaults().put(id, p);
+            ex.getPlayerPlaceholderStorage().saveDefault(id, p);
+            // success
+            Utils.msg(s, "Player placeholder: " + id + " successfully created!");
+            return true;
+        }
+
+        if (args[0].equalsIgnoreCase("server")) {
+
+            String id = args[1];
+
+            if (ex.getPlaceholderHandler().getServerPlaceholders().containsKey(id)) {
+                // placeholder already exists
+                Utils.msg(s, "placeholder identifier: " + id + " already exists!");
+                return true;
+            }
+
+            Class<?> type = Utils.getSupportedClassType(args[2]);
+
+            if (type == null) {
+                // the type is invalid
+                Utils.msg(s, "Type: " + args[2] + " is not a valid type!");
+                return true;
+            }
+
+            String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length), " ");
+
+            Object obj = Utils.getObject(type, val);
+
+            if (obj == null) {
+                // object isn't the correct type
+                Utils.msg(s, "Value: " + val + " is not the correct type for type specified: " + type.getSimpleName());
+                return true;
+            }
+
+            Placeholder p = new Placeholder(id, type, obj);
+            ex.getPlaceholderHandler().getServerPlaceholders().put(id, p);
+            ex.getServerPlaceholderStorage().save(id, p);
+
+            // success
+            Utils.msg(s, "Server placeholder: " + id + " successfully created!");
+            return true;
+        }
+
+        return false;
     }
-
-    if (args[0].equalsIgnoreCase("server")) {
-
-      String id = args[1];
-
-      if (ex.getPlaceholderHandler().getServerPlaceholders().containsKey(id)) {
-        // placeholder already exists
-        Utils.msg(s, "placeholder identifier: " + id + " already exists!");
-        return true;
-      }
-
-      Class<?> type = Utils.getSupportedClassType(args[2]);
-
-      if (type == null) {
-        // the type is invalid
-        Utils.msg(s, "Type: " + args[2] + " is not a valid type!");
-        return true;
-      }
-
-      String val = StringUtils.join(Arrays.copyOfRange(args, 3, args.length), " ");
-
-      Object obj = Utils.getObject(type, val);
-
-      if (obj == null) {
-        // object isn't the correct type
-        Utils.msg(s, "Value: " + val + " is not the correct type for type specified: " + type.getSimpleName());
-        return true;
-      }
-
-      Placeholder p = new Placeholder(id, type, obj);
-      ex.getPlaceholderHandler().getServerPlaceholders().put(id, p);
-      ex.getServerPlaceholderStorage().save(id, p);
-
-      // success
-      Utils.msg(s, "Server placeholder: " + id + " successfully created!");
-      return true;
-    }
-
-    return false;
-  }
 }
